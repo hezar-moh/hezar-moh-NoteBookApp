@@ -12,8 +12,9 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script>
-       
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
+
 
 </head>
 
@@ -22,7 +23,7 @@
     @auth
         <div class="container pt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2  style="text-align: center"> My Notes</h2>
+                <h2 style="text-align: center"> My Notes</h2>
                 <form action="/logout" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-outline-danger">
@@ -31,19 +32,19 @@
                 </form>
             </div>
 
-          
+
             <div class="mb-4">
                 <a href="/viewCreate" class="btn btn-success">
                     <i class="fa fa-plus me-1"></i> Create New Note
                 </a>
             </div>
 
-         
+
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     @if ($notes->isEmpty())
-                        <div class="p-4 text-center text-muted"> You have no notes yet. <br> <br><a href="/viewCreate" class="btn btn-success"><i class="fa fa-plus me-2"></i>Create your first note</a>
-                           
+                        <div class="p-4 text-center text-muted"> You have no notes yet. <br> <br><a href="/viewCreate"
+                                class="btn btn-success"><i class="fa fa-plus me-2"></i>Create your first note</a>
                         </div>
                     @else
                         <div class="table-responsive">
@@ -52,6 +53,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Note Subject</th>
+                                        <th>Image</th>
                                         <th>Your Content</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -61,17 +63,31 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $note->title }}</td>
+                                           
+                                            <td>
+                                                @if ($note->image)
+                                                    <img src="{{ asset('storage/' . $note->image) }}" alt="Note Image"
+                                                        width="100">
+                                                @else
+                                                    <span class="text-muted">No Image</span>
+                                                @endif
+                                            </td>
+                                            </td>
+
                                             <td>{{ $note->content }}</td>
                                             <td class="text-center">
-                                                <a href="{{ route('edit', $note->id) }}" class="btn btn-sm btn-primary me-2" title="Edit">
+                                                <a href="{{ route('edit', $note->id) }}" class="btn btn-sm btn-primary me-2"
+                                                    title="Edit">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <form action="{{ route('delete', $note->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('delete', $note->id) }}" method="POST"
+                                                    class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger" title="Delete"
                                                         onclick="return confirm('Are you sure you want to delete this note?')">
-                                                        <i class="fa fa-trash-alt"></i> <!--alt is to enhance good looking-->
+                                                        <i class="fa fa-trash-alt"></i>
+                                                        <!--alt is to enhance good looking-->
                                                     </button>
                                                 </form>
                                             </td>

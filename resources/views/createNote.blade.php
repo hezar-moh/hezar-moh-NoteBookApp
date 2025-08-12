@@ -30,9 +30,8 @@
                         <div class="card-body">
                             <h3 class="mb-4 text-center"> Create a New Note</h3>
 
-                            <form action="/createNote" method="POST">
+                            <form action="/createNote" method="POST" enctype="multipart/form-data">                                                     
                                 @csrf
-
                                 <div class="mb-3">
                                     <label for="title">Note Title</label>
                                     <input type="text" name="title" class="form-control" required>
@@ -43,6 +42,12 @@
                                     <label for="content">Main Content</label>
                                     <textarea name="content" class="form-control" rows="6" required></textarea>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="image">Upload Image</label>
+                                    <input type="file" name="image">
+                                </div>
+                                
 
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-success">

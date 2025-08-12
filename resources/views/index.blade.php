@@ -68,7 +68,7 @@
     <h1>Welcome to NoteKeeping App</h1>
     <p>Your Simple and Easy note-taking solution.</p>
 
-    {{-- Button that links to the notes index route --}}
+   
     <a href="/showRegister">
       <button class="start-btn">Start Taking Notes</button>
     </a>
