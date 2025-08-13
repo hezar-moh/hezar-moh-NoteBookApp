@@ -13,8 +13,8 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
 
     <style>
         body {
@@ -24,8 +24,6 @@
         .card {
             border-radius: 12px;
         }
-
-
     </style>
 </head>
 
@@ -39,7 +37,7 @@
                     <div class="card-body">
                         <h3 class="mb-4 text-center"> Edit Your Note</h3>
 
-                        <form action="{{ route('edit', $note->id) }}" method="POST">
+                      <form action="{{ route('edit', $note->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -51,8 +49,21 @@
 
                             <div class="mb-3">
                                 <label for="content" class="form-label">Content</label>
-                                <textarea id="content" name="content" class="form-control" rows="5"
-                                    required>{{ old('content', $note->content) }}</textarea>
+                                <textarea id="content" name="content" class="form-control" rows="5" required>{{ old('content', $note->content) }}</textarea>
+                            </div>
+
+                            @if ($note->image)
+                                <div class="mb-3">
+                                    <label class="form-label">Current Image</label><br>
+                                    <img src="{{ asset('storage/' . $note->image) }}" alt="Note Image" width="150">
+                                </div>
+                            @endif
+
+                            <!-- we upload image here Image -->
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Change Image (optional)</label>
+                                <input type="file" id="image" name="image" class="form-control"
+                                    accept="image/*">
                             </div>
 
                             <div class="d-grid"> <!--allows grid elements like buttons and a to be placed as rows -->

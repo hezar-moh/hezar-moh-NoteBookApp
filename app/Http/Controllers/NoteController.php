@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NoteController extends Controller
 {
@@ -36,15 +37,26 @@ public function updateNote(Note $note, Request $request){
     if (auth()->user()->id !== $note->user_id) {
         return redirect('/');
     }          
-$incomingFields = $request->validate([
-    'title' => 'required',
-    'content' => 'required'
-]);
-     
-$note->update([
-    'title' => $incomingFields['title'],
-    'content' => $incomingFields['content']  //we sy any value coming from 'content ' name . should be saved in content column
-]);
+
+    $incomingFields = $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+        'image' => 'nullable|image|max:2048'  // optional image upload with max size 2MB
+    ]);
+
+    $dataToUpdate = [
+        'title' => $incomingFields['title'],
+        'content' => $incomingFields['content']
+    ];
+if ($request->hasFile('image')) {
+        Storage::disk('public')->delete($note->image);    // this is option If you want to delete the old image file when a new one is uploaded (to avoid unused files accumulating), you can add:
+
+        // Store the new image
+        $dataToUpdate['image'] = $request->file('image')->store('images', 'public');
+    }
+
+    $note->update($dataToUpdate);
+
     return redirect('/home');
 }
 
